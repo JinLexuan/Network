@@ -1,0 +1,4 @@
+list(APPEND NP_SOURCES
+${CMAKE_CURRENT_LIST_DIR}/Buffer.cpp
+${CMAKE_CURRENT_LIST_DIR}/Endpoint.cpp
+)

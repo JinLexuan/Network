@@ -1,6 +1,7 @@
 set(NP_TARGET Client)
 
 set(NP_SOURCES
+    SyncClient.cpp
     main.cpp)
 
 add_executable(${NP_TARGET} ${NP_SOURCES})

@@ -30,5 +30,4 @@ set(NP_LIBRARIES
 
 # target_link_libraries(${NP_TARGET} ${NP_LIBRARIES})
 
-add_subdirectory("SyncClient")
-add_subdirectory("SyncServer")
+add_subdirectory("Sync")

@@ -11,7 +11,7 @@ void np::SyncServer::session(std::shared_ptr<boost::asio::ip::tcp::socket> sock)
         while (true)
         {
             std::array<char, MAX_LENGTH> data;
-            memset(data.data(), '\0', MAX_LENGTH);
+            std::memset(data.data(), '\0', MAX_LENGTH); // Clear the data
             boost::system::error_code error;
 
             const std::size_t length = sock->read_some(boost::asio::buffer(data.data(), MAX_LENGTH),
@@ -49,7 +49,8 @@ void np::SyncServer::server(const unsigned short     port,
         std::shared_ptr<boost::asio::ip::tcp::socket> socket(new boost::asio::ip::tcp::socket(ioContext));
         acc.accept(*socket);
         std::shared_ptr<std::thread> t = std::make_shared<std::thread>(np::SyncServer::session, socket);
-        threadSet.insert(t);
+        this->threadSet.insert(t);
+        std::cout << this->threadSet.size() << std::endl;
     }
 }
 
@@ -58,8 +59,8 @@ void np::SyncServer::start()
     try
     {
         boost::asio::io_context ioContext;
-        server(10086, ioContext);
-        for (const auto& t : threadSet)
+        np::SyncServer::server(10086, ioContext);
+        for (const auto& t : this->threadSet)
         {
             t->join();
         }

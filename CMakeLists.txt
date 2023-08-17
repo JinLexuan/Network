@@ -19,7 +19,8 @@ set(NP_LIBRARIES
     Boost::boost
 )
 
-# include(Archive/CMakeLists.txt)
+include(Archive/CMakeLists.txt)
+include(Asyc/CMakeLists.txt)
 
 # add_executable(${NP_TARGET} ${NP_SOURCES})
 
@@ -31,3 +32,4 @@ set(NP_LIBRARIES
 # target_link_libraries(${NP_TARGET} ${NP_LIBRARIES})
 
 add_subdirectory("Sync")
+add_subdirectory("Asyc")

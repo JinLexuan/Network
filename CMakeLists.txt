@@ -31,5 +31,6 @@ include(Asyc/CMakeLists.txt)
 
 # target_link_libraries(${NP_TARGET} ${NP_LIBRARIES})
 
-add_subdirectory("Sync")
-add_subdirectory("Asyc")
+# add_subdirectory("Sync")
+# add_subdirectory("Asyc")
+add_subdirectory("AsyncServer")

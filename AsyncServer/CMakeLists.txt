@@ -1,7 +1,8 @@
-set(NP_TARGET AysncServer)
+set(NP_TARGET test_server)
 
 set(NP_SOURCES
     AsyncSession.cpp
+    MsgNode.cpp
     Server.cpp
     main.cpp)
 

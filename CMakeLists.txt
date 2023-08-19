@@ -19,8 +19,9 @@ set(NP_LIBRARIES
     Boost::boost
 )
 
-include(Archive/CMakeLists.txt)
-include(Asyc/CMakeLists.txt)
+# include(Archive/CMakeLists.txt)
+# include(Asyc/CMakeLists.txt)
+# include(AsyncServer/CMakeLists.txt)
 
 # add_executable(${NP_TARGET} ${NP_SOURCES})
 

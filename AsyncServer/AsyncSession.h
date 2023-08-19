@@ -2,6 +2,9 @@
 
 #include "Server.h"
 #include <boost/asio.hpp>
+#include <queue>
+
+#include "MsgNode.h"
 
 namespace np
 {
@@ -11,12 +14,14 @@ class AsyncSession final : public std::enable_shared_from_this<np::AsyncSession>
 public:
     AsyncSession(boost::asio::io_context& ioc,
                  np::Server*              server);
+    ~AsyncSession();
 
     boost::asio::ip::tcp::socket& socket();
 
     void start();
     std::string getUuid() const;
-    ~AsyncSession();
+
+    void send(char* msg, int maxLength);
 
 private:
     np::Server* server;
@@ -34,5 +39,9 @@ private:
     void handleRead(const boost::system::error_code&  error,
                     std::size_t                       bytes_transferred,
                     std::shared_ptr<np::AsyncSession> selfShared);
+
+    std::queue<std::shared_ptr<np::MsgNode>> sendQ;
+
+    std::mutex sendLock;
 };
 } // namespace np

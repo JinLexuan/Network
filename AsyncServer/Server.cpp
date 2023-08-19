@@ -12,9 +12,14 @@ np::Server::Server(boost::asio::io_context& ioc,
     np::Server::startAccept();
 }
 
+void np::Server::removeSession(const std::string& uuid)
+{
+    this->sessionsMap.erase(uuid);
+}
+
 void np::Server::startAccept()
 {
-    np::AsyncSession* newSession = new np::AsyncSession(ioc);
+    std::shared_ptr<np::AsyncSession> newSession = std::make_shared<np::AsyncSession>(this->ioc, this);
     this->acc.async_accept(newSession->socket(),
                            std::bind(&np::Server::handleAccept,
                                      this,
@@ -22,16 +27,13 @@ void np::Server::startAccept()
                                      std::placeholders::_1));
 }
 
-void np::Server::handleAccept(np::AsyncSession*                newSession,
-                              const boost::system::error_code& error)
+void np::Server::handleAccept(std::shared_ptr<np::AsyncSession>& newSession,
+                              const boost::system::error_code&   error)
 {
-    if (error.failed() == true)
-    {
-        delete newSession;
-    }
-    else
+    if (error.failed() == false)
     {
         newSession->start();
+        this->sessionsMap.insert(std::make_pair(newSession->getUuid(), newSession));
     }
 
     np::Server::startAccept();

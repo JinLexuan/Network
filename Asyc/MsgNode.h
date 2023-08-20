@@ -13,7 +13,7 @@ public:
 
     std::size_t totalLen;
     std::size_t curLen;
-    char*       msg;
+    char*       data;
 };
 
 } // namespace np

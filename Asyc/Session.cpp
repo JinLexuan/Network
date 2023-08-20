@@ -26,7 +26,7 @@ void np::Session::writeCallBack(const boost::system::error_code& errorCode,
         firstBuf->curLen + transferredBytes < firstBuf->totalLen)
     {
         firstBuf->curLen += transferredBytes;
-        this->sock->async_write_some(boost::asio::buffer(firstBuf->msg + firstBuf->curLen,
+        this->sock->async_write_some(boost::asio::buffer(firstBuf->data + firstBuf->curLen,
                                                          firstBuf->totalLen - firstBuf->curLen),
                                      std::bind(&np::Session::writeCallBack,
                                                this,
@@ -44,7 +44,7 @@ void np::Session::writeCallBack(const boost::system::error_code& errorCode,
     else
     {
         auto& firstBuf = this->sendQueue.front();
-        this->sock->async_write_some(boost::asio::buffer(firstBuf->msg + firstBuf->curLen,
+        this->sock->async_write_some(boost::asio::buffer(firstBuf->data + firstBuf->curLen,
                                                          firstBuf->totalLen - firstBuf->curLen),
                                      std::bind(&np::Session::writeCallBack,
                                                this,
@@ -88,7 +88,7 @@ void np::Session::writeAllCallBack(const boost::system::error_code& errorCode,
     else
     {
         auto& firstBuf = this->sendQueue.front();
-        this->sock->async_send(boost::asio::buffer(firstBuf->msg + firstBuf->curLen,
+        this->sock->async_send(boost::asio::buffer(firstBuf->data + firstBuf->curLen,
                                                    firstBuf->totalLen - firstBuf->curLen),
                                std::bind(&np::Session::writeCallBack,
                                          this,
@@ -124,7 +124,7 @@ void np::Session::readFromSocket()
     const int receiveSize = 1024;
     this->receiveNode     = std::make_shared<np::MsgNode>(receiveSize);
 
-    this->sock->async_read_some(boost::asio::buffer(this->receiveNode->msg,
+    this->sock->async_read_some(boost::asio::buffer(this->receiveNode->data,
                                                     this->receiveNode->totalLen),
                                 std::bind(&np::Session::readCallBack,
                                           this,
@@ -145,7 +145,7 @@ void np::Session::readCallBack(const boost::system::error_code& errorCode,
     this->receiveNode->curLen += transferredBytes;
     if (this->receiveNode->curLen < this->receiveNode->totalLen)
     {
-        this->sock->async_read_some(boost::asio::buffer(this->receiveNode->msg + this->receiveNode->curLen,
+        this->sock->async_read_some(boost::asio::buffer(this->receiveNode->data + this->receiveNode->curLen,
                                                         this->receiveNode->totalLen - this->receiveNode->curLen),
                                     std::bind(&np::Session::readCallBack,
                                               this,
@@ -168,7 +168,7 @@ void np::Session::readAllFromSocket()
     const int receiveSize = 1024;
     this->receiveNode     = std::make_shared<np::MsgNode>(receiveSize);
 
-    this->sock->async_receive(boost::asio::buffer(this->receiveNode->msg,
+    this->sock->async_receive(boost::asio::buffer(this->receiveNode->data,
                                                   this->receiveNode->totalLen),
                               std::bind(&np::Session::readCallBack,
                                         this,

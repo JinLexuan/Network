@@ -1,13 +1,16 @@
 #include "MsgNode.h"
 #include <cstring>
 
+#include "boost/asio.hpp"
+
 np::MsgNode::MsgNode(const char*       msg,
                      const std::size_t maxLen) :
     totalLen(maxLen + HEAD_LENGTH),
     curLen(0),
     data(new char[totalLen + 1])
 {
-    std::memcpy(this->data, &maxLen, HEAD_LENGTH);
+    std::size_t maxLenHost = boost::asio::detail::socket_ops::host_to_network_short(maxLen);
+    std::memcpy(this->data, &maxLenHost, HEAD_LENGTH);
     std::memcpy(this->data + HEAD_LENGTH, msg, maxLen);
 
     this->data[this->totalLen] = '\0';

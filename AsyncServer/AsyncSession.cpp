@@ -171,8 +171,9 @@ bool np::AsyncSession::onHeadNotParsed(int&                               copyLe
     np::AsyncSession::onGreaterThanHead(copyLen, bytes_transferred);
 
     // Get the head data.
-    short dataLen = 0;
+    unsigned short dataLen = 0;
     std::memcpy(&dataLen, this->headNode->data, HEAD_LENGTH);
+    dataLen = boost::asio::detail::socket_ops::network_to_host_short(dataLen);
     std::cout << "The length of data is " << dataLen << std::endl;
 
     // Judge whether the length is invalid.
@@ -214,9 +215,10 @@ void np::AsyncSession::onGreaterThanHead(int&         copyLen,
     bytes_transferred -= headRemain;
 
     // Get the head data.
-    short dataLen = 0;
+    unsigned short dataLen = 0;
     std::memcpy(&dataLen, this->headNode->data, HEAD_LENGTH);
     std::cout << "The length of data is " << dataLen << std::endl;
+    dataLen = boost::asio::detail::socket_ops::network_to_host_short(dataLen);
 }
 
 void np::AsyncSession::onCurMsgComplete(const short  dataLen,

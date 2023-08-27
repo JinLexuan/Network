@@ -27,14 +27,30 @@ void np::SyncClient::startClient()
         std::array<char, np::SyncClient::MAX_LENGTH> request;
         std::cin.getline(request.data(), np::SyncClient::MAX_LENGTH);
         const std::size_t requestLength = strlen(request.data());
-        boost::asio::write(sock, boost::asio::buffer(request.data(), requestLength));
 
-        std::array<char, MAX_LENGTH> reply;
+        std::array<char, np::SyncClient::MAX_LENGTH> sendData = { 0 };
 
-        const std::size_t replyLength = boost::asio::read(sock,
-                                                          boost::asio::buffer(reply.data(), requestLength));
+        std::memcpy(sendData.data(), &requestLength, 2);
+        std::memcpy(sendData.data() + 2, request.data(), requestLength);
+        boost::asio::write(sock,
+                           boost::asio::buffer(sendData,
+                                               requestLength + 2));
+
+        std::array<char, np::SyncClient::HEAD_LENGTH> replyHead;
+
+        boost::asio::read(sock,
+                          boost::asio::buffer(replyHead,
+                                              np::SyncClient::HEAD_LENGTH));
+
+        short msgLen = 0;
+
+        std::memcpy(&msgLen, replyHead.data(), np::SyncClient::HEAD_LENGTH);
+        std::array<char, np::SyncClient::MAX_LENGTH> msg;
+
+        boost::asio::read(sock,
+                          boost::asio::buffer(msg.data(), msgLen));
         std::cout << "Reply is: ";
-        std::cout.write(reply.data(), static_cast<std::streamsize>(replyLength));
+        std::cout.write(msg.data(), static_cast<std::streamsize>(msgLen));
         std::cout << std::endl;
     }
     catch (std::exception& e)

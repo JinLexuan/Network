@@ -13,6 +13,7 @@ Checks: '-*,
          -cppcoreguidelines-pro-bounds-array-to-pointer-decay,-warnings-as-errors,
          -cppcoreguidelines-owning-memory,
          -cppcoreguidelines-pro-type-member-init,
+         -cppcoreguidelines-pro-bounds-pointer-arithmetic,
          -modernize-use-trailing-return-type,
          -modernize-avoid-bind,
          -modernize-use-default-member-init,
@@ -54,9 +55,8 @@ Checks: '-*,
 # readability-identifier-length - wants minimum name length of 3 but sometimes we want 1 (x / y)
 # readability-use-anyofallof    - wants us to use std::any_of/all_of instead of range based for loops but that is very verbose and ugly
 
-# cppcoreguidelines-pro-type-union-access - wants to use std::variant to replace union, but we need union in this project
 # cppcoreguidelines-pro-type-member-init  - wants constructor to initialise all the member variables of the class, but we need to handle seperately for Json
-
+# cppcoreguidelines-pro-bounds-pointer-arithmetic - have to use pointer arthmetic
 
 WarningsAsErrors: '*'
 

@@ -1,22 +1,32 @@
 #include "MsgNode.h"
 #include <cstring>
 
-np::MsgNode::MsgNode(const char* msg, const std::size_t totalLen) :
-    totalLen(totalLen),
+np::MsgNode::MsgNode(const char*       msg,
+                     const std::size_t maxLen) :
+    totalLen(maxLen + HEAD_LENGTH),
     curLen(0),
-    msg(new char[totalLen])
+    data(new char[totalLen + 1])
 {
-    std::memcpy(this->msg, msg, this->totalLen);
+    std::memcpy(this->data, &maxLen, HEAD_LENGTH);
+    std::memcpy(this->data + HEAD_LENGTH, msg, maxLen);
+
+    this->data[this->totalLen] = '\0';
 }
 
-np::MsgNode::MsgNode(const std::size_t totalLen) :
-    totalLen(totalLen),
+np::MsgNode::MsgNode(const std::size_t maxLen) :
+    totalLen(maxLen),
     curLen(0),
-    msg(new char[totalLen])
+    data(new char[this->totalLen + 1])
 {
+}
+
+void np::MsgNode::clear()
+{
+    std::memset(this->data, 0, this->totalLen);
+    this->curLen = 0;
 }
 
 np::MsgNode::~MsgNode()
 {
-    delete[] this->msg;
+    delete[] this->data;
 }

@@ -17,4 +17,4 @@ target_link_libraries(${NP_TARGET} PRIVATE
     ${NP_LIBRARIES})
      
 set_target_properties(${NP_TARGET} PROPERTIES 
-    RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/build")
+    RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin")

@@ -1,0 +1,3 @@
+list(APPEND NP_SOURCES
+${CMAKE_CURRENT_LIST_DIR}/msg.pb.cc
+)

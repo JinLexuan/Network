@@ -1,4 +1,12 @@
 .cache
 .vscode
-build
 .DS_Store
+
+# compile path
+build
+
+# binary path
+bin
+
+# proto file
+*.pb.*

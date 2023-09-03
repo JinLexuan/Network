@@ -14,3 +14,4 @@ set(NP_LIBRARIES
 )
 
 add_subdirectory("ProtoBuf")
+add_subdirectory("Json")

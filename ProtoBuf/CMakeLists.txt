@@ -9,12 +9,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/Protos/CMakeLists.txt)
 
 add_executable(${NP_TARGET} ${NP_SOURCES})
 
-target_include_directories(${NP_TARGET} PRIVATE 
-    ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
 target_link_libraries(${NP_TARGET} PRIVATE
-    ${NP_LIBRARIES}
     protobuf::libprotobuf)
      
 set_target_properties(${NP_TARGET} PROPERTIES 
